@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import TimerInputForm from './components/TimerInputForm';
+import CountDownTimer from './components/CountDownTimer';
 
 function App() {
+  const [isStart, setIsStart] = useState(false);
+  const [timeCount, setTimeCount] = useState(0);
+  const setTimeCountHandler = (time: number) => {
+    setIsStart(true);
+    setTimeCount(time);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!isStart ? (
+        <TimerInputForm startCountDown={setTimeCountHandler}></TimerInputForm>
+      ) : (
+        <CountDownTimer timeCount={timeCount}></CountDownTimer>
+      )}
     </div>
   );
 }
