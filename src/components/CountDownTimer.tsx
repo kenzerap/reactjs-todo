@@ -28,6 +28,14 @@ const CountDownTimer: React.FC<{ timeCount: number }> = (props) => {
     const countDownInterval = setInterval(() => {
       setTimeCount((oldTimeCount) => {
         const newTimeCount = new Date(oldTimeCount);
+        if (
+          newTimeCount.getMinutes() === 0 &&
+          newTimeCount.getSeconds() === 0
+        ) {
+          clearInterval(countDownInterval);
+          setIsStart(false);
+          return newTimeCount.getTime();
+        }
         newTimeCount.setSeconds(newTimeCount.getSeconds() - 1);
         return newTimeCount.getTime();
       });
@@ -45,6 +53,8 @@ const CountDownTimer: React.FC<{ timeCount: number }> = (props) => {
   const resetCountDown = () => {
     const timer = new Date();
     timer.setMinutes(props.timeCount, 0, 0);
+    setIsStart(false);
+    clearInterval(countDownInterval);
     setTimeCount(timer.getTime());
   };
 
@@ -53,8 +63,12 @@ const CountDownTimer: React.FC<{ timeCount: number }> = (props) => {
       {getTimer()}
 
       <div className={classes['button-Bar']}>
-        <button disabled={isStart} onClick={startCountDown}>Start</button>
-        <button disabled={!isStart} onClick={pauseCountDown}>Pause</button>
+        <button disabled={isStart} onClick={startCountDown}>
+          Start
+        </button>
+        <button disabled={!isStart} onClick={pauseCountDown}>
+          Pause
+        </button>
         <button onClick={resetCountDown}>Reset</button>
       </div>
     </Fragment>
