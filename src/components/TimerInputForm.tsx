@@ -11,7 +11,7 @@ function TimerInputForm(props: any) {
   return (
     <div className={classes.inputBar}>
       <input
-        type="number"
+        type="number" 
         ref={inputElement}
         placeholder="enter minutes"
       ></input>
